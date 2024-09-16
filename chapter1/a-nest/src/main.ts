@@ -9,6 +9,7 @@ async function bootstrap() {
   await app.listen(3000);
   const port = process.env.PORT || 3000;
   console.log(`listening on port ${port}`); // 3000!
+  //껐다 켰다하기 귀찮잖아~ 핫 리로딩 하자고
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
