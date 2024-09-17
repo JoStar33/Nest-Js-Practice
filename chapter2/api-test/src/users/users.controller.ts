@@ -1,16 +1,25 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { JoinRequestDto } from './dto/join.request.dto';
+import { UsersService } from './users.service';
 
 // 함수명은 최대한 겹치지않게 구성해주자! 사실상 반복작업..
 // 쿼리스트링 바디 파일이런건 어케받지?
 // 아래처럼 쓰면된다 @Req(). res는 @Res()
 @Controller('users')
 export class UsersController {
+  constructor(private userService: UsersService) {}
+
   @Get()
   getUsers(@Req() req) {
     return req.user;
   }
+  // 여기서 DTO라는 개념이 등장함
+  // DTO는 클래스로 구성해주세요잉~
+  // 그리고 지금부터는 객체지향적 사고로 알잘딱으로 상속하거나 구조를 만들면 좋겠죠?
   @Post()
-  postUsers() {}
+  postUsers(@Body() data: JoinRequestDto) {
+    this.userService.postUsers(data.email, data.nickname, data.password);
+  }
   @Post('login')
   logIn() {
     // 여기에는 패스포트를 붙일예정.
