@@ -12,6 +12,12 @@ import { AppService } from './app.service';
 
 @Controller('abc')
 export class AppController {
+  // 가끔, 아주 가~끔 여기 커스텀키로 설정해둔 프로바이더 정보를 사용해야한다고 가정해보자
+  // 그럼 다음과 같은 포멧으로 코드를 작성해볼 수 있음.
+  // 원리들이 있어서 들어가는거야~
+  /*
+   * @Inject('CUSTOM_KEY') private readonly customValue
+   */
   constructor(private readonly appService: AppService) {}
 
   @Get('hello') // /abc/hello << 이렇게 표현됩니다
