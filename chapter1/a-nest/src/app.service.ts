@@ -15,13 +15,13 @@ export class AppService {
     console.log(process.env.TEST);
 
     // 아래와 같이 configService를 통해 사용도 가능함.
-    // 이러면 TEST 정보를 가져올 수 있음.
+    // 이러면 TEST 정보를 가져올 수 있음. (env)
     // 걍 아래처럼쓰자!!!!
     this.configService.get('TEST');
     return 'Hello World!';
   }
   // 그리고 좋은점! 이렇게 결과데이터 그자체로 리턴만 하면 알아서 JSON으로 출력된다.
-  // response.json 이런 난리를 안쳐도 됨.
+  // response.json 이런 난리를 안쳐도 됨. 확실히 단순명료해서 좋네요
   postHello(): number {
     let value = 0;
     for (let i = 0; i < 20; i++) {

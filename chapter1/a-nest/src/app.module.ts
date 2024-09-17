@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 // Nest는 모듈시스템으로 구성돼 있음.
 // Express는 라우터를 추가해주는 방식으로 설계를 했다면, Nest는 모듈위주의
@@ -9,7 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 // 다만 모듈을 직접 구성해야한다는 점에서는 스프링보다 IoC가 약하다.
 
 const getEnv = async () => {
-  // 이렇게 비밀키정보를 API호출을 통해 가져오는것 또한 가능하다.
+  // 이렇게 비밀키 정보를 API호출을 통해 가져오는것 또한 가능하다.
   const response = await fetch('/key');
   return response.body;
 };
@@ -21,4 +22,10 @@ const getEnv = async () => {
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // 라우터 전체에 로거를 적용하겠다. 라는 의미인데 특정 주소에만 미들웨어를
+    // 적용하는것도 가능함.
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
