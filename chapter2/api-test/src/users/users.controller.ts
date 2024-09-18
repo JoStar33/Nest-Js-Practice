@@ -3,6 +3,7 @@ import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
+import { User } from 'src/common/decorator/user.decorator';
 
 // 함수명은 최대한 겹치지않게 구성해주자! 사실상 반복작업..
 // 쿼리스트링 바디 파일이런건 어케받지?
@@ -20,8 +21,8 @@ export class UsersController {
   })
   @ApiOperation({ summary: '사용자 정보' })
   @Get()
-  getUsers(@Req() req: { user: UserDto }) {
-    return req.user;
+  getUsers(@User() user) {
+    return user;
   }
   // 여기서 DTO라는 개념이 등장함
   // DTO는 클래스로 구성해주세요잉~
