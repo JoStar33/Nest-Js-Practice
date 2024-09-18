@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ApiParam, ApiQuery } from '@nestjs/swagger';
 
 interface GetChatParam {
   id: string;
@@ -7,6 +8,22 @@ interface GetChatParam {
 
 @Controller('api/workspace/:url/dms')
 export class DmsController {
+  // 쿼리스트링 & 파람스정보는 아래와 같이 정의한다.
+  @ApiQuery({
+    name: 'perPage',
+    required: true,
+    description: '한 번에 가져오는 개수',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: true,
+    description: '현재 페이지',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: '사용자 고유ID',
+  })
   @Get(':id/chats')
   // 이런식으로 작성해서 쿼리스트링 값을 가져올 수 있고, 그게 아니라면 아예 객체정보를 가져오는것도
   // 가능하다.
