@@ -1,13 +1,18 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseInterceptors } from '@nestjs/common';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
-import { User } from 'src/common/decorator/user.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
 
 // 함수명은 최대한 겹치지않게 구성해주자! 사실상 반복작업..
 // 쿼리스트링 바디 파일이런건 어케받지?
 // 아래처럼 쓰면된다 @Req(). res는 @Res()
+// 인터셉터의 적용은 아래와 같이 사용함.
+// 밑에 컨트롤러 내부함수일부에 적용도 가능.
+@UseInterceptors(UndefinedToNullInterceptor)
+@ApiTags('USER')
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
